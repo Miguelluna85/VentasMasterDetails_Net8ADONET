@@ -177,10 +177,10 @@ public class SaleRepository : ISaleRepository
                     insertDetailCommand.Parameters.AddWithValue("@Price", detail.Price);
                     await insertDetailCommand.ExecuteNonQueryAsync();
                 }
-                SqlCommand UpdateCommand = new SqlCommand("sp_UpdateSaleDetails", con);
+                SqlCommand UpdateCommand = new SqlCommand("sp_UpdateSale", con);
                 UpdateCommand.CommandType = CommandType.StoredProcedure;
                 UpdateCommand.Parameters.AddWithValue("@SaleID", saleDTO.SaleID);
-                UpdateCommand.Parameters.AddWithValue("@Fecha", saleDTO.Date);
+                UpdateCommand.Parameters.AddWithValue("@Date", saleDTO.Date);
                 UpdateCommand.Parameters.AddWithValue("@Total", saleDTO.Total);
                 await UpdateCommand.ExecuteNonQueryAsync();
 
