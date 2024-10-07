@@ -9,8 +9,8 @@
 <hr />
 
 <div class="row">
-    <div class="col-md-4">
-        <from asp-controller="Product" asp-action="Create">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post">
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -20,9 +20,13 @@
                 <input asp-for="Price" class="form-control" />
             </div>
             <div class="form-group">
+                <label asp-for="Quantity" class="control-label"></label>
+                <input asp-for="Quantity" class="form-control" />
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
-        </from>
+        </form>
     </div>
 </div>
 <div>

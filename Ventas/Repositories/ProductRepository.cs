@@ -22,7 +22,7 @@ public class ProductRepository : IProductRepository
         cmd.CommandType = CommandType.StoredProcedure;
         cmd.Parameters.AddWithValue("@Name", productDTO.Name);
         cmd.Parameters.AddWithValue("@Price", productDTO.Price);
-
+        cmd.Parameters.AddWithValue("@Quantity", productDTO.Quantity);
         await con.OpenAsync();
         productID = Convert.ToInt32(await cmd.ExecuteScalarAsync());
 
@@ -34,6 +34,7 @@ public class ProductRepository : IProductRepository
         using SqlConnection con = new SqlConnection(_conecctionString);
         using SqlCommand cmd = new SqlCommand("sp_DeleteProduct", con);
         cmd.CommandType = CommandType.StoredProcedure;
+        cmd.Parameters.AddWithValue("@ProductID", id);
 
         await con.OpenAsync();
         await cmd.ExecuteScalarAsync();
@@ -57,7 +58,8 @@ public class ProductRepository : IProductRepository
                 {
                     ProductID = (int)reader["ProductID"],
                     Name = (string)reader["Name"],
-                    Price = (decimal)reader["Price"]
+                    Price = (decimal)reader["Price"],
+                    Quantity = String.IsNullOrEmpty(reader["Quantity"].ToString()) ? 0 : Convert.ToInt32(reader["Quantity"])
                 });
             }
         }
@@ -82,7 +84,8 @@ public class ProductRepository : IProductRepository
                 {
                     ProductID = (int)reader["ProductID"],
                     Name = (string)reader["Name"],
-                    Price = (decimal)reader["Price"]
+                    Price = (decimal)reader["Price"],
+                    Quantity = String.IsNullOrEmpty(reader["Quantity"].ToString()) ? 0 : Convert.ToInt32(reader["Quantity"])
                 };
             }
         }
@@ -95,10 +98,10 @@ public class ProductRepository : IProductRepository
         using SqlCommand cmd = new SqlCommand("sp_UpdateProduct", con);
 
         cmd.CommandType = CommandType.StoredProcedure;
-        cmd.Parameters.AddWithValue("@ProductD", productDTO.ProductID);
+        cmd.Parameters.AddWithValue("@ProductID", productDTO.ProductID);
         cmd.Parameters.AddWithValue("@Name", productDTO.Name);
         cmd.Parameters.AddWithValue("@Price", productDTO.Price);
-
+        cmd.Parameters.AddWithValue("@Quantity", productDTO.Quantity);
         await con.OpenAsync();
         await cmd.ExecuteNonQueryAsync();
 
