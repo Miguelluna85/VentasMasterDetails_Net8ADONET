@@ -1,1 +1,28 @@
-﻿
+﻿@{
+    ViewData["Title"] = "Delete";
+}
+
+@model Ventas.DTOs.ProductDTO
+
+<h1>Delete</h1>
+<h4>Product</h4>
+<hr />
+
+<div>
+    <h4>¿Está seguro que desea eliminar este producto?</h4>
+    <dl class="row">
+        <dt class="col-sm-2">ProductID</dt>
+        <dt class="col-sm-10">@Model.ProductID</dt>
+        <dt class="col-sm-2">NameD</dt>
+        <dt class="col-sm-10">@Model.Name</dt>
+        <dt class="col-sm-2">Price</dt>
+        <dt class="col-sm-10">@Model.Price</dt>
+    </dl>
+</div>
+<form asp-action="Delete" method="post">
+    <input asp-for="ProductID" type="hidden" />
+    <input type="submit" value="Delete" class="btn btn-danger" />
+</form>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
