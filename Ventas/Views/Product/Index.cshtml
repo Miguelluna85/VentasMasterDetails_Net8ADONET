@@ -24,7 +24,7 @@
             <tr>
                 <td>@producto.ProductID</td>
                 <td>@producto.Name</td>
-                <td>@producto.Price</td>
+                <td>@producto.Price.ToString("C")</td>
                 <td>@producto.Quantity</td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@producto.ProductID">Edit</a>

@@ -92,6 +92,9 @@ public class SaleController(
 
         if (sale == null)
             return NotFound();
+
+        ViewBag.Products = await productRepository.GetAllProductsAsync();
+
         return View(sale);
     }
 
