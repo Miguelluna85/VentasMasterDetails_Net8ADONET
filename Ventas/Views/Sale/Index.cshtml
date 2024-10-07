@@ -1,1 +1,36 @@
-﻿
+﻿@model IEnumerable<Ventas.DTOs.SaleDTO>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Sales</h1>
+<p>
+    <a asp-action="Create" class="btn btn-primary">Nueva Venta</a>
+</p>
+
+<table class="table table-responsive table-hover">
+    <thead>
+        <tr>
+            <th>Sale ID</th>
+            <th>Date</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Ventas.DTOs.SaleDTO sale in Model)
+        {           
+            <tr>
+                <td>@sale.SaleID</td>
+                <td>@sale.Date.ToShortDateString()</td>
+                <td>@sale.Total.ToString("C")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@sale.SaleID">Edit</a>
+                    <a asp-action="Details" asp-route-id="@sale.SaleID">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@sale.SaleID">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
