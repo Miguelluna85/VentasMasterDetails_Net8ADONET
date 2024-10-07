@@ -42,7 +42,7 @@ public class ProductRepository : IProductRepository
 
     public async Task<IEnumerable<ProductDTO>> GetAllProductsAsync()
     {
-        var lstProducts = new List<ProductDTO>();
+        List<ProductDTO> lstProducts = new List<ProductDTO>();
 
         using (SqlConnection con = new SqlConnection(_conecctionString))
         {
@@ -104,6 +104,5 @@ public class ProductRepository : IProductRepository
         cmd.Parameters.AddWithValue("@Quantity", productDTO.Quantity);
         await con.OpenAsync();
         await cmd.ExecuteNonQueryAsync();
-
     }
 }
