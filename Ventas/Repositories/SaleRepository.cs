@@ -35,7 +35,7 @@ public class SaleRepository : ISaleRepository
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Date", saleDTO.Date);
             cmd.Parameters.AddWithValue("@Total", saleDTO.Total);
-            var param = cmd.Parameters.AddWithValue("saleDetails", saleDetailsTable);
+            var param = cmd.Parameters.AddWithValue("@SaleDetails", saleDetailsTable);
             param.SqlDbType = SqlDbType.Structured;
             param.TypeName = "saleDetailsType";
 

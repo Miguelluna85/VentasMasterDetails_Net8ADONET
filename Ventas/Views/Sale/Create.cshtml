@@ -8,7 +8,7 @@
 <hr />
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-5">
         <form asp-asp-controller="Sale" asp-action="Create" method="post">
             <div class="form-group">
                 <label asp-for="Date" class="control-label"></label>
@@ -35,11 +35,13 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Unit Price</label>
-                        <input class="form-control price-input" readonly name="SaleDetails[0].Price" />
+                        <input class="form-control price-input" readonly 
+                               name="SaleDetails[0].Price" />
                     </div>
                     <div class="form-group">
                         <label class="control-label">Subtotal</label>
-                        <input class="form-control subtotal-input" readonly name="SaleDetails[0].Subtotal" />
+                        <input class="form-control subtotal-input" readonly 
+                                name="SaleDetails[0].Subtotal" />
                     </div>
                 </div>
             </div>
@@ -52,7 +54,7 @@
                 <input id="total" class="form-control" readonly />
             </div>
             <div class="form-group">
-                <input id="submit" class="form-control btn btn-primary" value="Create" />
+                <input type="submit" class="form-control btn btn-primary" value="Create" />
             </div>
         </form>
     </div>
@@ -68,19 +70,19 @@
             let detailIndex = 0;
 
             function updateSubtotal(index) {
-                const quantity = document.querySelector(`.sale-detail:nth-child(${index + 1}).quantity-input`).value;
-                const price = document.querySelector(`.sale-detail:nth-child(${index + 1}).price-input`).value;
+                const quantity = document.querySelector(`.sale-detail:nth-child(${index + 1}) .quantity-input`).value;
+                const price = document.querySelector(`.sale-detail:nth-child(${index + 1}) .price-input`).value;
 
                 const subtotal = quantity * price;
-                document.querySelector(`.sale-detail:nth-child(${index + 1}).subtotal-input`).value = subtotal.toFixed(2);
-
+                document.querySelector(`.sale-detail:nth-child(${index + 1}) .subtotal-input`).value = subtotal.toFixed(2);
+                updateTotal();
             }
 
             function updateTotal() {
-                const subtotal = document.querySelectorAll('subtotal-input');
+                const subtotals = document.querySelectorAll('.subtotal-input');
                 let total = 0;
 
-                subtotal.forEach(subtotal => {
+                subtotals.forEach(subtotal => {
                     total += parseFloat(subtotal.value) || 0;
                 });
 
@@ -93,15 +95,16 @@
                     const productId = event.target.value;
 
                     fetch(`/Sale/Price/${productId}`)
-                        .then(Response => response.Json())
+                        .then(response => response.json())
                         .then(price => {
-                            document.querySelector(`.sale-detail:nth-child(${index + 1}).price-input`).value = price;
+                            
+                            document.querySelector(`.sale-detail:nth-child(${index + 1}) .price-input`).value = price;
                             updateSubtotal(index);
                         });
                 }
 
-                if (event.classList.contains('quantity-input'){
-                    const index = Array.from(document.querySelector('.quantity-input')).indexOf(event.target);
+                if (event.target.classList.contains('quantity-input')){
+                    const index = Array.from(document.querySelectorAll('.quantity-input')).indexOf(event.target);
                     updateSubtotal(index);
 
                 }

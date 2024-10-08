@@ -24,9 +24,9 @@
             <thead>
                 <tr>
                     <th>Product ID</th>
-                    <th>Name</th>
-                    <th>Quantity</th>
+                    <th>Name</th>                    
                     <th>Price</th>
+                    <th>Quantity</th>                    
                     <th>Subtotal</th>
                 </tr>
             </thead>
@@ -39,7 +39,7 @@
                         <td>@detail.ProductID</td>
                         <td>@products.FirstOrDefault(p => p.ProductID == detail.ProductID)?.Name</td>
                         <td>@detail.Price.ToString("C")</td>
-                        <td>@detail.Quantity</td>
+                        <td>@detail.Quantity.ToString("#.00")</td>
                         <td>@subTotal.ToString("C")</td>
                     </tr>
                 }
