@@ -89,7 +89,7 @@
                 document.getElementById('total').value = total.toFixed(2);
             }
 
-            document.getElementById('sale-details').addEventListener('change', function () {
+            document.getElementById('sale-details').addEventListener('change', function (event) {
                 if (event.target.classList.contains('product-select')) {
                     const index = Array.from(document.querySelectorAll('.product-select')).indexOf(event.target);
                     const productId = event.target.value;
