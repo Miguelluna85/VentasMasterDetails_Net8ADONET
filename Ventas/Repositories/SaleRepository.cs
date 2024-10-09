@@ -32,9 +32,12 @@ public class SaleRepository : ISaleRepository
         using (SqlConnection con = new(_connectionString))
         {
             using SqlCommand cmd = new("sp_InsertSale", con);
+
             cmd.CommandType = CommandType.StoredProcedure;
+            
             cmd.Parameters.AddWithValue("@Date", saleDTO.Date);
             cmd.Parameters.AddWithValue("@Total", saleDTO.Total);
+            
             var param = cmd.Parameters.AddWithValue("@SaleDetails", saleDetailsTable);
             param.SqlDbType = SqlDbType.Structured;
             param.TypeName = "saleDetailsType";
