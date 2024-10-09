@@ -27,9 +27,8 @@
                                 <option value="">Select Product</option>
                                 @foreach (var product in ViewBag.Products)
                                 {
-                                    var select = Model.SaleDetails[i].ProductID == product.ProductID ? "selected=\"selected\"" : "";
-                                    @Html.Raw($"<option value=\"{product.ProductID}\" {select}>{product.Name}</option>")
-                                    ;
+                                    var select = Model.SaleDetails[i].ProductID == product.ProductID ? "selected=\"selected\"": "";
+                                    @Html.Raw($"<option value=\"{product.ProductID}\" {select}>{product.Name}</option>")                                    
                                 }
                             </select>
                         </div>
@@ -37,19 +36,18 @@
                         <div class="form-group">
                             <label class="control-label">Quantity</label>
                             <input class="form-control quantity-input" type="number" min="1"
-                                   value="@Model.SaleDetails[i].Quantity" name="SaleDetails[@i].Quantity" />
+                                   name="SaleDetails[@i].Quantity"  value="@Model.SaleDetails[i].Quantity" />
                         </div>
                         <div class="form-group">
                             <label class="control-label">Unit Price</label>
                             <input class="form-control price-input" readonly
-                                   value="@Model.SaleDetails[i].Price" name="SaleDetails[@i].Price" />
+                                   name="SaleDetails[@i].Price"  value="@Model.SaleDetails[i].Price" />
                         </div>
                         <div class="form-group">
                             <label class="control-label">Subtotal</label>
                             <input class="form-control subtotal-input" readonly
-                                   value="@(
-                                    Model.SaleDetails[i].Quantity * Model.SaleDetails[i].Price)"
-                                   name="SaleDetails[@i].Subtotal" />
+                                   name="SaleDetails[@i].Subtotal"
+                                   value="@(Model.SaleDetails[i].Quantity * Model.SaleDetails[i].Price)" />
                         </div>
                     </div>
                 }
@@ -63,7 +61,7 @@
                 <input id="total" class="form-control" name="Total" readonly />
             </div>
             <div class="form-group">
-                <input type="submit" class="form-control btn btn-primary" value="Create" />
+                <input type="submit" class="form-control btn btn-primary" value="Save" />
             </div>
         </form>
     </div>
@@ -77,13 +75,16 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             let detailIndex = document.querySelectorAll('.sale-detail').length;
+            console.log('detailIndex: ' + detailIndex)
 
             function updateSubtotal(index) {
                 const quantity = parseFloat(document.querySelector(`.sale-detail:nth-child(${index + 1}) .quantity-input`).value) || 0;
                 const price = parseFloat(document.querySelector(`.sale-detail:nth-child(${index + 1}) .price-input`).value) || 0;
-
+                console.log('quantity: '+quantity);
+                console.log('price: ' + price);
                 const subtotal = quantity * price;
                 document.querySelector(`.sale-detail:nth-child(${index + 1}) .subtotal-input`).value = subtotal.toFixed(2);
+                console.log('subtotal:'+subtotal);
                 updateTotal();
             }
 
@@ -105,14 +106,15 @@
                         fetch(`/Sale/Price/${productId}`)
                             .then(response => response.json())
                             .then(price => {
-                                document.querySelector(`.sale-detail:nth-child(${index + 1}) .price-input`).value = price;
+                                document.querySelector(`.sale-detail:nth-child(${index + 1}) .price-input`).value = price.toFixed(2);
                                 updateSubtotal(index);
+                                console.log('index: '+index)
                             });
                     });
                 });
 
                 document.querySelectorAll('.quantity-input').forEach((input, index) => {
-                    input.addEventListener('chance', function () {
+                    input.addEventListener('change', function(){
                         updateSubtotal(index);
                     });
                 });
@@ -120,7 +122,7 @@
 
             attachEventHandlers();
 
-            document.getElementById('add-detail').addEventListener('click', function () {
+            document.getElementById('add-detail').addEventListener('click', function(){
                 const newDetail = document.createElement('div')
                 newDetail.classList.add('sale-detail');
                 newDetail.innerHTML = `<div class="form-group">

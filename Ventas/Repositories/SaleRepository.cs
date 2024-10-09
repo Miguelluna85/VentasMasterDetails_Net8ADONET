@@ -162,14 +162,14 @@ public class SaleRepository : ISaleRepository
         {
             try
             {
-                SqlCommand deleteCommand = new SqlCommand("sp_DeleteSaleDetails", con);
+                SqlCommand deleteCommand = new SqlCommand("sp_DeleteSaleDetails", con,transaction);
                 deleteCommand.CommandType = CommandType.StoredProcedure;
                 deleteCommand.Parameters.AddWithValue("@SaleID", saleDTO.SaleID);
                 await deleteCommand.ExecuteNonQueryAsync();
 
                 foreach (SaleDetailDTO detail in saleDTO.SaleDetails)
                 {
-                    SqlCommand insertDetailCommand = new SqlCommand("sp_InsertSaleDetail", con);
+                    SqlCommand insertDetailCommand = new SqlCommand("sp_InsertSaleDetail", con, transaction);
                     insertDetailCommand.CommandType = CommandType.StoredProcedure;
                     insertDetailCommand.Parameters.AddWithValue("@SaleID", saleDTO.SaleID);
                     insertDetailCommand.Parameters.AddWithValue("@ProductID", detail.ProductID);
@@ -177,7 +177,7 @@ public class SaleRepository : ISaleRepository
                     insertDetailCommand.Parameters.AddWithValue("@Price", detail.Price);
                     await insertDetailCommand.ExecuteNonQueryAsync();
                 }
-                SqlCommand UpdateCommand = new SqlCommand("sp_UpdateSale", con);
+                SqlCommand UpdateCommand = new SqlCommand("sp_UpdateSale", con, transaction);
                 UpdateCommand.CommandType = CommandType.StoredProcedure;
                 UpdateCommand.Parameters.AddWithValue("@SaleID", saleDTO.SaleID);
                 UpdateCommand.Parameters.AddWithValue("@Date", saleDTO.Date);
